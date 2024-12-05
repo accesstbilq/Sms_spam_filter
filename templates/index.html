@@ -1,0 +1,441 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spam Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        .prediction {
+            margin-top: 20px;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .spam {
+            background-color: #ffdddd;
+            color: red;
+        }
+        .not-spam {
+            background-color: #ddffdd;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spam Classifier</h1>
+    <form method="POST">
+        <textarea name="text" placeholder="Enter text to check for spam">{{ input_text }}</textarea>
+        <br>
+        <input type="submit" value="Check Spam">
+    </form>
+
+    {% if prediction %}
+        <div class="prediction {% if prediction == 'Spam' %}spam{% else %}not-spam{% endif %}">
+            Prediction: {{ prediction }}
+        </div>
+    {% endif %}
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spam Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        .prediction {
+            margin-top: 20px;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .spam {
+            background-color: #ffdddd;
+            color: red;
+        }
+        .not-spam {
+            background-color: #ddffdd;
+            color: green;
+        }
+        .model-select {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spam Classifier</h1>
+    <form method="POST">
+        <div class="model-select">
+            <label for="model">Select Model:</label>
+            <select name="model" id="model">
+                {% for model in models %}
+                    <option value="{{ model }}" 
+                            {% if model == selected_model %}selected{% endif %}>
+                        {{ model }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <textarea name="text" placeholder="Enter text to check for spam">{{ input_text }}</textarea>
+        <br>
+        <input type="submit" value="Check Spam">
+    </form>
+
+    {% if prediction %}
+        <div class="prediction {% if prediction == 'Spam' %}spam{% else %}not-spam{% endif %}">
+            Model: {{ selected_model }}<br>
+            Prediction: {{ prediction }}
+        </div>
+    {% endif %}
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Classifier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .model-select {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .model-select label {
+            margin-right: 1rem;
+            font-weight: 500;
+        }
+        .model-select select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #f8f9fa;
+        }
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 1rem;
+            background-color: #f8f9fa;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .prediction {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .spam {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border-left: 5px solid #d32f2f;
+        }
+        .not-spam {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 5px solid #2e7d32;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Spam Classifier</h1>
+        </div>
+        
+        <form method="POST">
+            <div class="model-select">
+                <label for="model">Select Model:</label>
+                <select name="model" id="model">
+                    {% for model in models %}
+                        <option value="{{ model }}" 
+                                {% if model == selected_model %}selected{% endif %}>
+                            {{ model }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <textarea name="text" placeholder="Enter text to check for spam">{{ input_text }}</textarea>
+            
+            <button type="submit" class="submit-btn">Check Spam</button>
+        </form>
+
+        {% if prediction %}
+            <div class="prediction {% if prediction == 'Spam' %}spam{% else %}not-spam{% endif %}">
+                <div>Model: {{ selected_model }}</div>
+                <div>Prediction: {{ prediction }}</div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Classifier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h3 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        .sample-text {
+            background-color: white;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            /* cursor: pointer; */
+            transition: background-color 0.2s;
+        }
+        .sample-text:hover {
+            /* background-color: #e9ecef; */
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .model-select {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .model-select label {
+            margin-right: 1rem;
+            font-weight: 500;
+        }
+        .model-select select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #f8f9fa;
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 1rem;
+            background-color: #f8f9fa;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .prediction {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .spam {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border-left: 5px solid #d32f2f;
+        }
+        .not-spam {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-left: 5px solid #2e7d32;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Spam Texts</h3>
+            <div class="sample-text">Free iPhone! Click here to claim your prize now!</div>
+            <div class="sample-text">Congratulations! You've won a million dollars. Send personal details to claim.</div>
+            <div class="sample-text">PRIVATE! Your 2003 Account Statement for shows 800 un-redeemed S.I.M. points. Call 08718738001 Identifier Code: 49557 Expires 26/11/04</div>
+            <div class="sample-text">You are awarded a SiPix Digital Camera! call 09061221061 from landline. Delivery within 28days. T Cs Box177. M221BP. 2yr warranty. 150ppm. 16 . p p�3.99</div>
+            <div class="sample-text">Romantic Paris. 2 nights, 2 flights from �79 Book now 4 next year. Call 08704439680Ts&Cs apply.</div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Spam Classifier</h1>
+            </div>
+            
+            <form method="POST">
+                <div class="model-select">
+                    <label for="model">Select Model:</label>
+                    <select name="model" id="model">
+                        {% for model in models %}
+                            <option value="{{ model }}" 
+                                    {% if model == selected_model %}selected{% endif %}>
+                                {{ model }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <textarea name="text" placeholder="Enter text to check for spam">{{ input_text }}</textarea>
+                
+                <button type="submit" class="submit-btn">Check Spam</button>
+            </form>
+
+            {% if prediction %}
+                <div class="prediction {% if prediction == 'Spam' %}spam{% else %}not-spam{% endif %}">
+                    <div>Model: {{ selected_model }}</div>
+                    <div>Prediction: {{ prediction }}</div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="sidebar">
+            <h3>Non-Spam Texts</h3>
+            <div class="sample-text">Compliments to you. Was away from the system. How your side.</div>
+            <div class="sample-text">Ok which your another number?</div>
+            <div class="sample-text">U still havent got urself a jacket ah?</div>
+            <div class="sample-text">No, I was trying it all weekend</div>
+            <div class="sample-text">Cool, what time you think you can get here?</div>
+        </div>
+    </div>
+</body>
+</html>
